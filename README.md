@@ -30,13 +30,20 @@ cd [REPO_NAME]
 
 2. הגדרת משתני סביבה:
 ```bash
-# .env
+# docker/.env
 OPENAI_API_KEY=your-openai-api-key
+FIRECRAWL_API_URL=http://api:3002
+
+# אופציונלי - Firecrawl
+PORT=3002
+HOST=0.0.0.0
+USE_DB_AUTHENTICATION=false
 ```
 
 3. בניית והרצת המערכת:
 ```bash
-docker-compose -f docker-compose.descriptions.yml up -d
+cd docker
+docker-compose up -d
 ```
 
 ## שימוש ב-API
@@ -86,12 +93,15 @@ curl -X POST http://localhost:8000/api/v1/summarize \
 
 ```
 .
-├── app.py                    # שרת FastAPI
-├── summary.py               # לוגיקת הפקת התיאורים
-├── requirements.txt         # תלויות Python
-├── descriptions.Dockerfile  # הגדרות Docker
-├── docker-compose.descriptions.yml  # הגדרות Docker Compose
-└── extension/              # תוסף הדפדפן
+├── api/                    # שירות התיאורים
+│   ├── app.py             # שרת FastAPI
+│   ├── summary.py         # לוגיקת הפקת התיאורים
+│   └── requirements.txt   # תלויות Python
+├── docker/                # הגדרות Docker
+│   ├── descriptions.Dockerfile
+│   ├── docker-compose.yml
+│   └── .env
+└── extension/            # תוסף הדפדפן
     ├── manifest.json
     ├── content.js
     ├── service-worker.js
@@ -122,16 +132,17 @@ curl -X POST http://localhost:8000/api/v1/summarize \
 ## פתרון בעיות
 
 1. **שגיאת חיבור ל-API**:
-   - ודא שכל השירותים רצים: `docker-compose -f docker-compose.descriptions.yml ps`
-   - בדוק לוגים: `docker-compose -f docker-compose.descriptions.yml logs -f description-api`
+   - ודא שכל השירותים רצים: `docker-compose ps`
+   - בדוק לוגים: `docker-compose logs -f description-api`
 
 2. **שגיאות גרידה**:
    - ודא שהאתר נגיש
-   - בדוק את לוגים של Firecrawl
+   - בדוק את לוגים של Firecrawl: `docker-compose logs -f api`
 
 3. **שגיאות OpenAI**:
    - ודא שמפתח ה-API תקין
    - בדוק מכסת שימוש
+   - ודא שהמפתח מתאים למודל GPT-4
 
 ## מידע נוסף
 
