@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Netfree Site Description Generator",
+  "version": "1.0",
+  "description": "הפקת תיאורי אתרים אוטומטיים בטופס Netfree",
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://netfree.link/*",
+    "http://localhost:8000/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://netfree.link/*"],
+      "js": ["content.js"],
+      "css": ["style.css"]
+    }
+  ],
+  "service_worker": "service-worker.js"
+}
